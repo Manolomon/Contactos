@@ -22,7 +22,7 @@ public class Contacto {
 
     public Contacto() {
     }
-
+    
     public Contacto(String nombre, String telefono, String email, String direccion, String apodo,
             Date fechaNacimiento) {
         this.nombre = nombre;
