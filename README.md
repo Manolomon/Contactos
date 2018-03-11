@@ -5,12 +5,15 @@ Proyecto para Principios de Construcción de Software para modelado de aplicaci�
 * [ ] El Sistema deberá almacenar contactos
 * [ ] Se podrá modificar los contactos
 
-![Prototipo](/Prototipo/Contactos.png)
+![Prototipo](/doc/Contactos.png)
 
 ## Base de Datos
-* [X] ~~*Nombre*~~ [2018-03-10]
-* [X] ~~*Correo electrónico*~~ [2018-03-10]
-* [X] ~~*Dirección*~~ [2018-03-10]
-* [X] ~~*Número Telefónico*~~ [2018-03-10]
-* [X] ~~*Fecha de Nacimiento*~~ [2018-03-10]
-* [X] ~~*Apodo (Opcional)*~~ [2018-03-10]
+| Field               | Type         | Null | Key | Default | Extra          |
+| ------------------- | ------------ | ---- | --- | ------- | -------------- |
+| idContacto          | int(11)      | NO   | PRI | NULL    | auto_increment |
+| Nombre              | varchar(255) | NO   |     | NULL    |                |
+| Correo electrónico  | varchar(100) | NO   |     | NULL    |                |
+| Dirección           | text         | NO   |     | NULL    |                |
+| Número Telefónico   | varchar(15)  | NO   |     | NULL    |                |
+| Fecha de Nacimiento | date         | NO   |     | NULL    |                |
+| Apodo (Opcional)    | varchar(255) | YES  |     | NULL    |                |
