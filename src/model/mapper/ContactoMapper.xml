@@ -5,16 +5,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="Contacto">
     <select id="getAllContactos" resultType="modelo.pojos.Contacto">
-        SELECT nombre, telefono, email, direccion, apodo,fechaNacimiento FROM Contacto
+        SELECT idContacto, nombre, telefono, email, direccion, apodo,fechaNacimiento FROM Contacto
     </select>
     
     <select id="buscarContacto" resultType="modelo.pojos.Contacto"
         parameterType="String">
-        SELECT nombre, telefono, email, direccion, apodo,fechaNacimiento FROM Contacto
+        SELECT idContacto, nombre, telefono, email, direccion, apodo,fechaNacimiento FROM Contacto
         WHERE nombre LIKE #{nombre}
     </select>
     
-    <insert id="registrarContacto" parameterType="model.pojos.Contacto">
+    <insert id="registrar" parameterType="model.pojos.Contacto">
         INSERT INTO Contacto (nombre, telefono, email, direccion, apodo,fechaNacimiento)
         VALUES(#{nombre},#{telefono},#{email},#{direccion},#{apodo},#{fechaNacimiento})
     </insert>
@@ -30,7 +30,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         WHERE idContacto = #{idContacto}
     </update>
 
-    <delete id="eliminarContacto" parameterType="int">
+    <delete id="eliminar" parameterType="int">
         DELETE FROM Contacto WHERE idContacto = #{idContacto}
     </delete>
 </mapper>

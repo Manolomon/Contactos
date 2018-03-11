@@ -8,6 +8,8 @@ package view;
 /**
  *
  * @author Manolo
+ * @since 03/11/2018
+ * @version 0.2
  */
 public class ContactosGUI extends javax.swing.JFrame {
 

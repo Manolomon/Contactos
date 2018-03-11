@@ -10,6 +10,8 @@ import java.util.Date;
 /**
  *
  * @author Manolo
+ * @since 03/10/2018
+ * @version 1.0
  */
 public class Contacto {
     private int idContacto;

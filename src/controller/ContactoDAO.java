@@ -14,6 +14,8 @@ import org.apache.ibatis.session.SqlSession;
 /**
  *
  * @author Manolo
+ * @since 03/10/2018
+ * @version 1.0
  */
 public class ContactoDAO {
 
@@ -47,5 +49,56 @@ public class ContactoDAO {
             }
         }
         return lista;
+    }
+
+    public static boolean registrar(Contacto c) {
+        SqlSession conn = null;
+        try {
+            conn = MyBatisUtils.getSession();
+            conn.insert("Contacto.registrar", c);
+            conn.commit();
+            return true;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return false;
+    }
+
+    public static boolean actualizar(Contacto c) {
+        SqlSession conn = null;
+        try {
+            conn = MyBatisUtils.getSession();
+            conn.update("Contacto.actualizar", c);
+            conn.commit();
+            return true;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return false;
+    }
+
+    public static boolean eliminar(int idContacto) {
+        SqlSession conn = null;
+        try {
+            conn = MyBatisUtils.getSession();
+            conn.delete("Contacto.eliminar", idContacto);
+            conn.commit();
+            return true;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return false;
     }
 }
