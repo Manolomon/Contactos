@@ -48,6 +48,10 @@ public class MainContactos extends javax.swing.JFrame {
             lista.setModel(modelo);
         }
     }
+    
+    private boolean camposIncompletos(){
+        return txt_Nombre.getText().isEmpty() ||txt_Telefono.getText().isEmpty() || txt_Correo.getText().isEmpty() || txt_Direccion.getText().isEmpty();
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -99,9 +103,9 @@ public class MainContactos extends javax.swing.JFrame {
         PanelContactos.setLayout(new java.awt.BorderLayout());
 
         PanelBuscar.setBackground(new java.awt.Color(255, 255, 255));
+        PanelBuscar.setLayout(new java.awt.BorderLayout());
 
         txt_Buscar.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-        txt_Buscar.setText("Buscar");
         txt_Buscar.setMinimumSize(new java.awt.Dimension(20, 40));
         txt_Buscar.setPreferredSize(new java.awt.Dimension(150, 22));
         txt_Buscar.addActionListener(new java.awt.event.ActionListener() {
@@ -109,7 +113,7 @@ public class MainContactos extends javax.swing.JFrame {
                 txt_BuscarActionPerformed(evt);
             }
         });
-        PanelBuscar.add(txt_Buscar);
+        PanelBuscar.add(txt_Buscar, java.awt.BorderLayout.CENTER);
 
         btn_Buscar.setBackground(new java.awt.Color(203, 203, 203));
         btn_Buscar.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
@@ -119,7 +123,7 @@ public class MainContactos extends javax.swing.JFrame {
                 btn_BuscarActionPerformed(evt);
             }
         });
-        PanelBuscar.add(btn_Buscar);
+        PanelBuscar.add(btn_Buscar, java.awt.BorderLayout.EAST);
 
         PanelContactos.add(PanelBuscar, java.awt.BorderLayout.PAGE_START);
 
@@ -130,14 +134,8 @@ public class MainContactos extends javax.swing.JFrame {
 
         lista.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-
-            public int getSize() {
-                return strings.length;
-            }
-
-            public String getElementAt(int i) {
-                return strings[i];
-            }
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
         });
         lista.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
@@ -171,8 +169,7 @@ public class MainContactos extends javax.swing.JFrame {
         PanelTag.setBackground(new java.awt.Color(217, 217, 217));
         PanelTag.setLayout(new java.awt.BorderLayout());
 
-        jLabel1.setIcon(
-                new javax.swing.ImageIcon(getClass().getResource("/resources/ic_account_circle_grey600_48dp.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/ic_account_circle_grey600_48dp.png"))); // NOI18N
         PanelTag.add(jLabel1, java.awt.BorderLayout.WEST);
 
         jPanel1.setBackground(new java.awt.Color(217, 217, 217));
@@ -189,8 +186,7 @@ public class MainContactos extends javax.swing.JFrame {
 
         PanelTag.add(jPanel1, java.awt.BorderLayout.CENTER);
 
-        btn_Borrar.setIcon(
-                new javax.swing.ImageIcon(getClass().getResource("/resources/ic_delete_circle_grey600_24dp.png"))); // NOI18N
+        btn_Borrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/ic_delete_circle_grey600_24dp.png"))); // NOI18N
         btn_Borrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_BorrarActionPerformed(evt);
@@ -309,7 +305,9 @@ public class MainContactos extends javax.swing.JFrame {
         jdc_dob.setDate(new Date());
         this.PanelDatos.setVisible(true);
         this.btn_Borrar.setVisible(false);
+        lbl_header.setText("");
         lbl_cumple.setVisible(false);
+        txt_Nombre.requestFocus();
     }//GEN-LAST:event_btn_AgregarActionPerformed
 
     private void txt_NombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_NombreActionPerformed
@@ -319,7 +317,6 @@ public class MainContactos extends javax.swing.JFrame {
     private void txt_BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_BuscarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_BuscarActionPerformed
-     //TODO setCumpleaños
 
     private void listaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listaMousePressed
         try {
@@ -335,7 +332,14 @@ public class MainContactos extends javax.swing.JFrame {
             btn_Borrar.setVisible(true);
             lbl_cumple.setVisible(true);
             Date current = new Date();
-           // int dias=(int) ((c.getFechaNacimiento().getTime()-current.getTime())/86400000);
+            long dias=(int) ((current.getTime() - c.getFechaNacimiento().getTime())/86400000);
+            int bis = 1;
+            while(dias > 365){
+                dias -= 365;
+                bis++;
+            }
+            dias = dias - (bis/4) ;
+            lbl_cumple.setText("Faltan " + dias+ " días para su cumpleaños");
         } catch (Exception ev) {
             System.out.println("Fijar mouse antes de hacer click derecho");
         }
@@ -356,31 +360,39 @@ public class MainContactos extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btn_BorrarActionPerformed
-
+    
     private void btn_GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_GuardarActionPerformed
         if (btn_Borrar.isVisible()) {
-            int resultado = JOptionPane.showConfirmDialog(this, "¿Desea modificar los datos del contacto?",
-                    "Modificar Contacto", JOptionPane.YES_NO_OPTION);
-            Contacto c = contactos.get(lista.getSelectedIndex());
-            if (resultado == 0) {
-                int id = (contactos.get(lista.getSelectedIndex()).getIdContacto());
-                Contacto nc;
-                nc = new Contacto(c.getIdContacto(), txt_Nombre.getText(), txt_Telefono.getText(), txt_Correo.getText(), txt_Direccion.getText(), txt_Apodo.getText(), jdc_dob.getDate());
-                if (ContactoDAO.actualizar(nc)) {
-                    JOptionPane.showMessageDialog(this, "Contacto modificado correctamente");
-                    this.cargarContactos(null);
-                } else {
-                    JOptionPane.showMessageDialog(this, "No se puedo modificar el contacto");
+            if (!camposIncompletos()){  
+                int resultado = JOptionPane.showConfirmDialog(this, "¿Desea modificar los datos del contacto?",
+                        "Modificar Contacto", JOptionPane.YES_NO_OPTION);
+                Contacto c = contactos.get(lista.getSelectedIndex());
+                if (resultado == 0) {
+                    int id = (contactos.get(lista.getSelectedIndex()).getIdContacto());
+                    Contacto nc;
+                    nc = new Contacto(c.getIdContacto(), txt_Nombre.getText(), txt_Telefono.getText(), txt_Correo.getText(), txt_Direccion.getText(), txt_Apodo.getText(), jdc_dob.getDate());
+                    if (ContactoDAO.actualizar(nc)) {
+                        JOptionPane.showMessageDialog(this, "Contacto modificado correctamente");
+                        this.cargarContactos(null);
+                    } else {
+                        JOptionPane.showMessageDialog(this, "No se puedo modificar el contacto");
+                    }
                 }
+            } else {
+                JOptionPane.showMessageDialog(this, "Campos Incompletos");
             }
         } else {
-            Contacto nc;
-            nc = new Contacto(txt_Nombre.getText(), txt_Telefono.getText(), txt_Correo.getText(), txt_Direccion.getText(), txt_Apodo.getText(), jdc_dob.getDate());
-            if (ContactoDAO.registrar(nc)) {
-                JOptionPane.showMessageDialog(this, "Contacto guardado correctamente");
-                this.cargarContactos(null);
+            if(!camposIncompletos()){
+                Contacto nc;
+                nc = new Contacto(txt_Nombre.getText(), txt_Telefono.getText(), txt_Correo.getText(), txt_Direccion.getText(), txt_Apodo.getText(), jdc_dob.getDate());
+                if (ContactoDAO.registrar(nc)) {
+                    JOptionPane.showMessageDialog(this, "Contacto guardado correctamente");
+                    this.cargarContactos(null);
+                } else {
+                    JOptionPane.showMessageDialog(this, "No se puedo guardar el contacto");
+                }
             } else {
-                JOptionPane.showMessageDialog(this, "No se puedo guardar el contacto");
+                JOptionPane.showMessageDialog(this, "Campos Incompletos");
             }
         }
     }//GEN-LAST:event_btn_GuardarActionPerformed

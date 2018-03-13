@@ -5,7 +5,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="Contacto">
     <select id="getAllContactos" resultType="model.pojos.Contacto">
-        SELECT idContacto, nombre, telefono, email, direccion, apodo, fechaNacimiento FROM Contacto
+        SELECT idContacto, nombre, telefono, email, direccion, apodo, fechaNacimiento FROM Contacto ORDER BY nombre
     </select>
     
     <select id="buscarContacto" resultType="model.pojos.Contacto"
