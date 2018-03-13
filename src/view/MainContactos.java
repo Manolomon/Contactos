@@ -331,16 +331,20 @@ public class MainContactos extends javax.swing.JFrame {
             txt_Correo.setText(c.getEmail());
             jdc_dob.setDate(c.getFechaNacimiento());
             lbl_header.setText(c.getNombre());
+            this.PanelDatos.setVisible(true);
             btn_Borrar.setVisible(true);
             lbl_cumple.setVisible(true);
+            Date current = new Date();
+           // int dias=(int) ((c.getFechaNacimiento().getTime()-current.getTime())/86400000);
         } catch (Exception ev) {
             System.out.println("Fijar mouse antes de hacer click derecho");
         }
     }//GEN-LAST:event_listaMousePressed
 
     private void btn_BorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_BorrarActionPerformed
-        int resultado = JOptionPane.showConfirmDialog(this, "¿Está seguro que desea eliminar el contacto seleccionado?",
-                "Eliminar Contacto", JOptionPane.YES_NO_OPTION);
+        int resultado = JOptionPane.showConfirmDialog(this,
+                "¿Está seguro que desea eliminar el contacto seleccionado?", "Eliminar Contacto",
+                JOptionPane.YES_NO_OPTION);
         Contacto c = contactos.get(lista.getSelectedIndex());
         if (resultado == 0) {
             int id = (contactos.get(lista.getSelectedIndex()).getIdContacto());
@@ -357,25 +361,40 @@ public class MainContactos extends javax.swing.JFrame {
         if (btn_Borrar.isVisible()) {
             int resultado = JOptionPane.showConfirmDialog(this, "¿Desea modificar los datos del contacto?",
                     "Modificar Contacto", JOptionPane.YES_NO_OPTION);
+            Contacto c = contactos.get(lista.getSelectedIndex());
             if (resultado == 0) {
                 int id = (contactos.get(lista.getSelectedIndex()).getIdContacto());
                 Contacto nc;
-                nc = new Contacto(txt_Nombre.getText(), txt_Apodo.getText(), txt_Telefono.getText(),
-                        txt_Correo.getText(), txt_Direccion.getText(), jdc_dob.getDate());
-                if (ContactoDAO.registrar(nc)) {
-                    JOptionPane.showMessageDialog(this, "Contacto guardado correctamente");
+                nc = new Contacto(c.getIdContacto(), txt_Nombre.getText(), txt_Telefono.getText(), txt_Correo.getText(), txt_Direccion.getText(), txt_Apodo.getText(), jdc_dob.getDate());
+                if (ContactoDAO.actualizar(nc)) {
+                    JOptionPane.showMessageDialog(this, "Contacto modificado correctamente");
                     this.cargarContactos(null);
                 } else {
-                    JOptionPane.showMessageDialog(this, "No se puedo guardar el contacto");
+                    JOptionPane.showMessageDialog(this, "No se puedo modificar el contacto");
                 }
             }
-        } else{
-            
+        } else {
+            Contacto nc;
+            nc = new Contacto(txt_Nombre.getText(), txt_Telefono.getText(), txt_Correo.getText(), txt_Direccion.getText(), txt_Apodo.getText(), jdc_dob.getDate());
+            if (ContactoDAO.registrar(nc)) {
+                JOptionPane.showMessageDialog(this, "Contacto guardado correctamente");
+                this.cargarContactos(null);
+            } else {
+                JOptionPane.showMessageDialog(this, "No se puedo guardar el contacto");
+            }
         }
     }//GEN-LAST:event_btn_GuardarActionPerformed
 
     private void btn_CancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_CancelarActionPerformed
-        // TODO add your handling code here:
+        txt_Nombre.setText("");
+        txt_Apodo.setText("");
+        txt_Telefono.setText("");
+        txt_Direccion.setText("");
+        txt_Correo.setText("");
+        jdc_dob.setDate(new Date());
+        this.PanelDatos.setVisible(false);
+        this.btn_Borrar.setVisible(false);
+        lbl_cumple.setVisible(false);
     }//GEN-LAST:event_btn_CancelarActionPerformed
 
     /**
