@@ -15,11 +15,11 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 /**
  *
  * @author Frost
- * @since 12/15/2018
+ * @since 12/15/2017
  * @version 1.0
  */
 public class MyBatisUtils {
-    public static String RESOURCE = "modelo/mybatis-config.xml";    
+    public static String RESOURCE = "model/mybatis-config.xml";    
     public static String ENVIRONMENT = "development";
     public static SqlSession getSession(){
         SqlSession session = null;

@@ -40,7 +40,7 @@ public class ContactoDAO {
         SqlSession conn = null;
         try {
             conn = MyBatisUtils.getSession();
-            lista = conn.selectList("Contacto.buscarContactos", nombre);
+            lista = conn.selectList("Contacto.buscarContacto", nombre);
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {

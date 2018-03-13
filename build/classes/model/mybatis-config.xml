@@ -10,7 +10,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
       <dataSource type="POOLED" >
 <property name="driver" 
           value="com.mysql.jdbc.Driver"/>
-<property name="url" value="jdbc:mysql://localhost:3306/rutas"/>
+<property name="url" value="jdbc:mysql://localhost:3306/contactos"/>
         <property name="username" value="root"/>
         <property name="password" value="Gatchaman130398"/>
         <property name="poolMaximumActiveConnections" 
@@ -19,8 +19,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         </environment>
     </environments>
     <mappers>
-        <mapper resource="modelo/mapper/AutobusMapper.xml"/>
-        <mapper resource="modelo/mapper/ChoferMapper.xml"/>
+        <mapper resource="model/mapper/ContactoMapper.xml"/>
     </mappers>
 </configuration>
 

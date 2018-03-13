@@ -4,11 +4,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="Contacto">
-    <select id="getAllContactos" resultType="modelo.pojos.Contacto">
-        SELECT idContacto, nombre, telefono, email, direccion, apodo,fechaNacimiento FROM Contacto
+    <select id="getAllContactos" resultType="model.pojos.Contacto">
+        SELECT idContacto, nombre, telefono, email, direccion, apodo, fechaNacimiento FROM Contacto
     </select>
     
-    <select id="buscarContacto" resultType="modelo.pojos.Contacto"
+    <select id="buscarContacto" resultType="model.pojos.Contacto"
         parameterType="String">
         SELECT idContacto, nombre, telefono, email, direccion, apodo,fechaNacimiento FROM Contacto
         WHERE nombre LIKE #{nombre}
