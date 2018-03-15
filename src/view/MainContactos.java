@@ -87,13 +87,13 @@ public class MainContactos extends javax.swing.JFrame {
         txt_Apodo = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         txt_Telefono = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        txt_Direccion = new javax.swing.JTextArea();
         jLabel8 = new javax.swing.JLabel();
         txt_Correo = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         jdc_dob = new com.toedter.calendar.JDateChooser();
+        jLabel7 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        txt_Direccion = new javax.swing.JTextArea();
         jPanel2 = new javax.swing.JPanel();
         btn_Cancelar = new javax.swing.JButton();
         btn_Guardar = new javax.swing.JButton();
@@ -231,6 +231,27 @@ public class MainContactos extends javax.swing.JFrame {
         txt_Telefono.setPreferredSize(new java.awt.Dimension(150, 22));
         PanelTexts.add(txt_Telefono);
 
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        jLabel8.setText("Correo Electrónico");
+        PanelTexts.add(jLabel8);
+
+        txt_Correo.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        txt_Correo.setPreferredSize(new java.awt.Dimension(150, 22));
+        txt_Correo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_CorreoActionPerformed(evt);
+            }
+        });
+        PanelTexts.add(txt_Correo);
+
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        jLabel9.setText("Fecha de Nacimiento");
+        PanelTexts.add(jLabel9);
+
+        jdc_dob.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        jdc_dob.setPreferredSize(new java.awt.Dimension(150, 22));
+        PanelTexts.add(jdc_dob);
+
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         jLabel7.setText("Dirección");
         PanelTexts.add(jLabel7);
@@ -242,22 +263,6 @@ public class MainContactos extends javax.swing.JFrame {
         jScrollPane2.setViewportView(txt_Direccion);
 
         PanelTexts.add(jScrollPane2);
-
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-        jLabel8.setText("Correo Electrónico");
-        PanelTexts.add(jLabel8);
-
-        txt_Correo.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-        txt_Correo.setPreferredSize(new java.awt.Dimension(150, 22));
-        PanelTexts.add(txt_Correo);
-
-        jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-        jLabel9.setText("Fecha de Nacimiento");
-        PanelTexts.add(jLabel9);
-
-        jdc_dob.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-        jdc_dob.setPreferredSize(new java.awt.Dimension(150, 22));
-        PanelTexts.add(jdc_dob);
 
         PanelDatos.add(PanelTexts, java.awt.BorderLayout.CENTER);
 
@@ -415,6 +420,10 @@ public class MainContactos extends javax.swing.JFrame {
         this.btn_Borrar.setVisible(false);
         lbl_cumple.setVisible(false);
     }//GEN-LAST:event_btn_CancelarActionPerformed
+
+    private void txt_CorreoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_CorreoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_CorreoActionPerformed
 
     /**
      * @param args the command line arguments
