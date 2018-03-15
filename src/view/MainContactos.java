@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -32,6 +33,7 @@ public class MainContactos extends javax.swing.JFrame {
         initComponents();
         cargarContactos(null);
         this.PanelDatos.setVisible(false);
+        this.setIconImage(new ImageIcon(getClass().getResource("/resources/ic_account_card_details_white_24dp.png")).getImage());
     }
 
     private void cargarContactos(String nombre) {
@@ -97,6 +99,7 @@ public class MainContactos extends javax.swing.JFrame {
         btn_Guardar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Contactos");
         setBackground(new java.awt.Color(255, 255, 255));
 
         PanelContactos.setBackground(new java.awt.Color(255, 255, 255));
@@ -339,7 +342,12 @@ public class MainContactos extends javax.swing.JFrame {
                 bis++;
             }
             dias = dias - (bis/4) ;
-            lbl_cumple.setText("Faltan " + dias+ " días para su cumpleaños");
+            if(dias > 0 ){
+                dias = 365 - dias;
+            } else{
+                dias *= -1;
+            }
+            lbl_cumple.setText("Faltan " + dias + " días para su cumpleaños");
         } catch (Exception ev) {
             System.out.println("Fijar mouse antes de hacer click derecho");
         }
@@ -368,7 +376,6 @@ public class MainContactos extends javax.swing.JFrame {
                         "Modificar Contacto", JOptionPane.YES_NO_OPTION);
                 Contacto c = contactos.get(lista.getSelectedIndex());
                 if (resultado == 0) {
-                    int id = (contactos.get(lista.getSelectedIndex()).getIdContacto());
                     Contacto nc;
                     nc = new Contacto(c.getIdContacto(), txt_Nombre.getText(), txt_Telefono.getText(), txt_Correo.getText(), txt_Direccion.getText(), txt_Apodo.getText(), jdc_dob.getDate());
                     if (ContactoDAO.actualizar(nc)) {
