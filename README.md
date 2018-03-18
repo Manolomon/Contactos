@@ -5,6 +5,7 @@ Proyecto para Principios de Construcción de Software para modelado de aplicaci�
 * [ ] El Sistema deberá almacenar contactos
 * [ ] Se podrá modificar los contactos
 
+##Prototipo
 ![Prototipo](/doc/Contactos.png)
 
 ## Base de Datos
