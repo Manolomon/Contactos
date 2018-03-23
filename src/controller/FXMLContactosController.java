@@ -12,12 +12,8 @@ import com.jfoenix.controls.JFXPopup;
 import com.jfoenix.controls.JFXTextField;
 
 import java.net.URL;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Calendar;
-import java.util.Date;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -43,6 +39,10 @@ public class FXMLContactosController implements Initializable {
     private AnchorPane contactPane;
     @FXML
     private JFXButton btn_addContact;
+    @FXML
+    private JFXButton btn_aceptar;
+    @FXML
+    private JFXButton btn_cancelar;
     @FXML
     private JFXListView<Label> contactList;
     @FXML
@@ -110,8 +110,8 @@ public class FXMLContactosController implements Initializable {
         txt_telefono.setText("");
         txt_direccion.setText("");
         txt_email.setText("");
-        txt_date.setValue(null);
-        //java.util.Date date = java.sql.Date.valueOf(txt_date.getValue());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        txt_date.setValue(LocalDate.parse(LocalDate.now().format(formatter), formatter));
     }
 
     @FXML
@@ -119,11 +119,11 @@ public class FXMLContactosController implements Initializable {
         cargarContactos(txt_buscar.getText() + "%");
     }
 
-    // TODO: Poner más guapo
+    // TODO: Funcionalidad de Agregar Contacto
     @FXML
     public void addNewContact(ActionEvent e) {
         limpiarCampos();
-        
+
     }
 
     public void initPopup() {
@@ -145,15 +145,27 @@ public class FXMLContactosController implements Initializable {
         if (event.getButton() == MouseButton.SECONDARY) {
             popup.show(contactList, JFXPopup.PopupVPosition.TOP, JFXPopup.PopupHPosition.LEFT, event.getX(),
                     event.getY());
-        } else{
+        } else {
             Contacto c = contactos.get(contactList.getSelectionModel().getSelectedIndex());
             txt_nombre.setText(c.getNombre());
             txt_apodo.setText(c.getApodo());
             txt_telefono.setText(c.getTelefono());
             txt_direccion.setText(c.getDireccion());
             txt_email.setText(c.getEmail());
-            txt_date.setValue(c.getFechaNacimiento().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+            //txt_date.setValue(c.getFechaNacimiento().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
             lbl_nombre.setText(c.getNombre());
         }
+    }
+    /* TODO: 
+     * Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+     */
+    @FXML
+    public void aceptarOnClick(ActionEvent e) {
+        limpiarCampos();
+    }
+
+    @FXML
+    public void cancelarOnClick(ActionEvent e) {
+        limpiarCampos();
     }
 }

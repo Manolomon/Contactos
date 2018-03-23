@@ -60,10 +60,10 @@
                   <JFXTextField fx:id="txt_apodo" focusColor="#009688" labelFloat="true" layoutX="21.0" layoutY="100.0" prefHeight="31.0" prefWidth="299.0" promptText="Apodo (Opcional)" />
                   <JFXTextField fx:id="txt_telefono" focusColor="#009688" labelFloat="true" layoutX="21.0" layoutY="159.0" prefHeight="31.0" prefWidth="299.0" promptText="Teléfono" />
                   <JFXTextField fx:id="txt_email" focusColor="#009688" labelFloat="true" layoutX="21.0" layoutY="217.0" prefHeight="31.0" prefWidth="299.0" promptText="Correo Electrónico" />
-                  <JFXDatePicker fx:id="txt__date" layoutX="21.0" layoutY="320.0" prefHeight="31.0" prefWidth="299.0" />
+                  <JFXDatePicker fx:id="txt_date" layoutX="21.0" layoutY="320.0" prefHeight="31.0" prefWidth="299.0" />
                   <JFXTextField fx:id="txt_direccion" focusColor="#009688" labelFloat="true" layoutX="21.0" layoutY="270.0" prefHeight="31.0" prefWidth="299.0" promptText="Dirección" />
-                  <JFXButton layoutX="177.0" layoutY="382.0" prefHeight="31.0" prefWidth="143.0" style="-fx-background-color: #009688;" text="Aceptar" textFill="WHITE" />
-                  <JFXButton layoutX="21.0" layoutY="382.0" prefHeight="31.0" prefWidth="143.0" text="Cancelar" />
+                  <JFXButton fx:id="btn_agregar" layoutX="177.0" layoutY="382.0" onAction="#aceptarOnClick" prefHeight="31.0" prefWidth="143.0" style="-fx-background-color: #009688;" text="Aceptar" textFill="WHITE" />
+                  <JFXButton fx:id="btn_cancelar" layoutX="21.0" layoutY="382.0" onAction="#cancelarOnClick" prefHeight="31.0" prefWidth="143.0" text="Cancelar" />
                </children>
             </AnchorPane>
          </children>

@@ -15,9 +15,11 @@ import javafx.stage.Stage;
 /**
  *
  * @author Manolo
+ * @since 03/17/2018
+ * @version 2.0
  */
 public class Contactos extends Application {
-
+    
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/view/FXMLContactos.fxml"));
@@ -28,7 +30,8 @@ public class Contactos extends Application {
         stage.setScene(scene);
         stage.getIcons()
                 .add(new Image(getClass().getResourceAsStream("/resources/ic_account_card_details_white_36dp.png")));
-        //stage.setResizable(false);
+        stage.setResizable(false);
+        stage.sizeToScene();
         stage.show();
     }
 
