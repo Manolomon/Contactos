@@ -139,7 +139,13 @@ public class FXMLContactosController implements Initializable {
     public void camposVisibles(boolean bool) {
 
     }
-
+    /**
+     * TODO: 
+     * Date input = new Date();
+     * Instant instant = input.toInstant();
+     * ZonedDateTime zdt = instant.atZone(ZoneId.systemDefault());
+     * LocalDate date = zdt.toLocalDate();
+     */
     @FXML
     public void showPopup(MouseEvent event) {
         if (event.getButton() == MouseButton.SECONDARY) {
