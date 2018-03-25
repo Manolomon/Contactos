@@ -7,16 +7,21 @@ package controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
+import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXDialogLayout;
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXPopup;
 import com.jfoenix.controls.JFXTextField;
 
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -28,25 +33,27 @@ import javafx.geometry.Insets;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.text.Text;
 import model.pojos.Contacto;
 
 /**
- *
+ * Controlador principal del la interfaz
  * @author Manolo
+ * @since 03/18/2018
+ * @version 0.6
  */
 public class FXMLContactosController implements Initializable {
     @FXML
-    private AnchorPane contactPane;
-    @FXML
-    private JFXButton btn_addContact;
-    @FXML
-    private JFXButton btn_aceptar;
-    @FXML
-    private JFXButton btn_cancelar;
+    private StackPane stackDialogPane;
     @FXML
     private JFXListView<Label> contactList;
     @FXML
     private JFXTextField txt_buscar;
+    @FXML
+    private JFXButton btn_addContact;
+    @FXML
+    private AnchorPane contactPane;
     @FXML
     private Label lbl_nombre;
     @FXML
@@ -65,10 +72,14 @@ public class FXMLContactosController implements Initializable {
     private JFXTextField txt_direccion;
     @FXML
     private ImageView imageStandBy;
+    @FXML
+    private JFXButton btn_aceptar;
+    @FXML
+    private JFXButton btn_cancelar;
 
     private JFXPopup popup;
-    private JFXButton btn_editar;
     private JFXButton btn_eliminar;
+
     private List<Contacto> contactos;
 
     @Override
@@ -76,6 +87,9 @@ public class FXMLContactosController implements Initializable {
         cargarContactos(null);
         initPopup();
         lbl_cumple.setVisible(false);
+        limpiarCampos();
+        contactPane.setVisible(false);
+        imageStandBy.setVisible(true);
     }
 
     public void cargarContactos(String nombre) {
@@ -99,12 +113,41 @@ public class FXMLContactosController implements Initializable {
         }
     }
 
+    public void eliminarContacto() {
+        int id = contactos.get(contactList.getSelectionModel().getSelectedIndex()).getIdContacto();
+        if (ContactoDAO.eliminar(id)) {
+            showDialog("Eliminado", "Contacto eliminado con éxito");
+            this.cargarContactos(null);
+        } else {
+            showDialog("Error", "No se pudo eliminar el contacto");
+        }
+        limpiarCampos();
+    }
+
+    public long calcularCumple(Date d) {
+        Date current = new Date();
+        long dias = (int) ((current.getTime() - d.getTime()) / 86400000);
+        int bis = 1;
+        while (dias > 365) {
+            dias -= 365;
+            bis++;
+        }
+        dias = dias - (bis / 4);
+        if (dias > 0) {
+            dias = 365 - dias;
+        } else {
+            dias *= -1;
+        }
+        return dias;
+    }
+
     public boolean camposIncompletos() {
         return txt_nombre.getText().isEmpty() || txt_telefono.getText().isEmpty() || txt_email.getText().isEmpty()
                 || txt_direccion.getText().isEmpty() || txt_date.getValue() == null;
     }
 
     public void limpiarCampos() {
+        lbl_nombre.setText("Contacto");
         txt_nombre.setText("");
         txt_apodo.setText("");
         txt_telefono.setText("");
@@ -114,40 +157,38 @@ public class FXMLContactosController implements Initializable {
         txt_date.setValue(LocalDate.parse(LocalDate.now().format(formatter), formatter));
     }
 
-    @FXML
-    public void busquedaActiva(KeyEvent e) {
-        cargarContactos(txt_buscar.getText() + "%");
-    }
-
-    // TODO: Funcionalidad de Agregar Contacto
-    @FXML
-    public void addNewContact(ActionEvent e) {
-        limpiarCampos();
-
-    }
-
     public void initPopup() {
-        btn_editar = new JFXButton("Editar   ");
         btn_eliminar = new JFXButton("Eliminar");
-        btn_editar.setPadding(new Insets(10));
         btn_eliminar.setPadding(new Insets(10));
-        VBox vbox = new VBox(btn_editar, btn_eliminar);
+        VBox vbox = new VBox(btn_eliminar);
         popup = new JFXPopup(contactList);
         popup.setPopupContent(vbox);
+        btn_eliminar.setOnAction((ActionEvent e) -> {
+            popup.hide();
+            eliminarContacto();
+        });
     }
 
-    public void camposVisibles(boolean bool) {
-
+    public void showDialog(String head, String body) {
+        JFXDialogLayout content = new JFXDialogLayout();
+        content.setHeading(new Text(head));
+        content.setBody(new Text(body));
+        JFXDialog dialog = new JFXDialog(stackDialogPane, content, JFXDialog.DialogTransition.CENTER);
+        JFXButton aceptar = new JFXButton("ACEPTAR");
+        aceptar.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                dialog.close();
+            }
+        });
+        content.setActions(aceptar);
+        dialog.show();
     }
-    /**
-     * TODO: 
-     * Date input = new Date();
-     * Instant instant = input.toInstant();
-     * ZonedDateTime zdt = instant.atZone(ZoneId.systemDefault());
-     * LocalDate date = zdt.toLocalDate();
-     */
+
     @FXML
     public void showPopup(MouseEvent event) {
+        contactPane.setVisible(true);
+        imageStandBy.setVisible(false);
         if (event.getButton() == MouseButton.SECONDARY) {
             popup.show(contactList, JFXPopup.PopupVPosition.TOP, JFXPopup.PopupHPosition.LEFT, event.getX(),
                     event.getY());
@@ -158,20 +199,66 @@ public class FXMLContactosController implements Initializable {
             txt_telefono.setText(c.getTelefono());
             txt_direccion.setText(c.getDireccion());
             txt_email.setText(c.getEmail());
-            //txt_date.setValue(c.getFechaNacimiento().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+            txt_date.setValue(c.getFechaNacimiento().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
             lbl_nombre.setText(c.getNombre());
+            lbl_cumple.setVisible(true);
+            lbl_cumple.setText(calcularCumple(c.getFechaNacimiento()) + " días para su cumpleaños");
         }
     }
-    /* TODO: 
-     * Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
-     */
+
+    @FXML
+    public void busquedaActiva(KeyEvent e) {
+        cargarContactos(txt_buscar.getText() + "%");
+    }
+
+    @FXML
+    public void addNewContact(ActionEvent e) {
+        limpiarCampos();
+        contactPane.setVisible(true);
+        imageStandBy.setVisible(false);
+        lbl_cumple.setVisible(false);
+    }
+
+    //TODO: Actualizar
     @FXML
     public void aceptarOnClick(ActionEvent e) {
-        limpiarCampos();
+        if (!lbl_cumple.isVisible()) {
+            if (!camposIncompletos()) {
+                Contacto nc;
+                nc = new Contacto(txt_nombre.getText(), txt_telefono.getText(), txt_email.getText(),
+                        txt_direccion.getText(), txt_apodo.getText(),
+                        Date.from(txt_date.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+                if (ContactoDAO.registrar(nc)) {
+                    showDialog("Guardado", "Contacto almacenado con éxito");
+                    this.cargarContactos(null);
+                } else {
+                    showDialog("Error", "No se pudo almacenar el contacto");
+                }
+            } else {
+                showDialog("Campos Incompletos", "Por favor llene todos los campos necesarios");
+            }
+        } else {
+            if (!camposIncompletos()) {
+                Contacto nc;
+                nc = new Contacto(txt_nombre.getText(), txt_telefono.getText(), txt_email.getText(),
+                        txt_direccion.getText(), txt_apodo.getText(),
+                        Date.from(txt_date.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+                if (ContactoDAO.actualizar(nc)) {
+                    showDialog("Actualizado", "Contacto actualizado con éxito");
+                    this.cargarContactos(null);
+                } else {
+                    showDialog("Error", "No se pudo almacenar el contacto");
+                }
+            } else {
+                showDialog("Campos Incompletos", "Por favor llene todos los campos necesarios");
+            }
+        }
     }
 
     @FXML
     public void cancelarOnClick(ActionEvent e) {
         limpiarCampos();
+        contactPane.setVisible(false);
+        imageStandBy.setVisible(true);
     }
 }

@@ -64,7 +64,7 @@ JFXListView .scroll-bar:vertical .thumb {
 }
 
 .jfx-list-cell:selected{
-    -fx-background-color: #3d8c91;
+    -fx-background-color: #00bfa5;/* #3d8c91*/
 }
 
 /*.jfx-list-cell{
@@ -85,3 +85,4 @@ JFXListView .scroll-bar:vertical .thumb {
     -fx-vertical-gap: 10;
     -fx-pref-width: 150;
 }*/
+

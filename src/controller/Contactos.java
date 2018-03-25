@@ -13,10 +13,10 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /**
- *
+ * Clase principal para el inicio de la interfaz y el controlador
  * @author Manolo
  * @since 03/17/2018
- * @version 2.0
+ * @version 1.8
  */
 public class Contactos extends Application {
     
