@@ -19,7 +19,7 @@ import javafx.stage.Stage;
  * @version 1.8
  */
 public class Contactos extends Application {
-    
+
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/view/FXMLContactos.fxml"));

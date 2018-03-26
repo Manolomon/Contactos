@@ -8,7 +8,7 @@ package model.pojos;
 import java.util.Date;
 
 /**
- * Clase principal para modelar los contactos
+ * Clase principal para modelar los contactos con al Base de Datos
  * @author Manolo
  * @since 03/10/2018
  * @version 2.0
@@ -30,9 +30,36 @@ public class Contacto {
 
     /**
      * Constructor del Contacto para la Base de Datos
+     * @param nombre Nombre del Contacto
+     * @param telefono Teléfono del Contacto
+     * @param email Correo Electrónico del Contacto 
+     * @param direccion Dirección del Contacto 
+     * @param apodo Apodo del Contacto
+     * @param fechaNacimiento Fecha de Nacimiento del Contacto
      */
     public Contacto(String nombre, String telefono, String email, String direccion, String apodo,
             Date fechaNacimiento) {
+        this.nombre = nombre;
+        this.telefono = telefono;
+        this.email = email;
+        this.direccion = direccion;
+        this.apodo = apodo;
+        this.fechaNacimiento = fechaNacimiento;
+    }
+
+    /**
+     * Constructor del Contacto para la Base de Datos con id definido (para edición)
+     * @param idContacto Identificador del Contacto
+     * @param nombre Nombre del Contacto
+     * @param telefono Teléfono del Contacto
+     * @param email Correo Electrónico del Contacto 
+     * @param direccion Dirección del Contacto 
+     * @param apodo Apodo del Contacto
+     * @param fechaNacimiento Fecha de Nacimiento del Contacto
+     */
+    public Contacto(int idContacto, String nombre, String telefono, String email, String direccion, String apodo,
+            Date fechaNacimiento) {
+        this.idContacto = idContacto;
         this.nombre = nombre;
         this.telefono = telefono;
         this.email = email;
@@ -112,7 +139,7 @@ public class Contacto {
     }
 
     /**
-     * @param direccion El apodo (opcional) del contacto
+     * @param apodo El apodo (opcional) del contacto
      */
     public void setApodo(String apodo) {
         this.apodo = apodo;

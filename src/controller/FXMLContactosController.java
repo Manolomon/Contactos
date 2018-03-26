@@ -38,10 +38,10 @@ import javafx.scene.text.Text;
 import model.pojos.Contacto;
 
 /**
- * Controlador principal del la interfaz
+ * Controlador principal del la Intefaz Gráfica de Usuario
  * @author Manolo
  * @since 03/18/2018
- * @version 0.6
+ * @version 1.0
  */
 public class FXMLContactosController implements Initializable {
     @FXML
@@ -82,6 +82,10 @@ public class FXMLContactosController implements Initializable {
 
     private List<Contacto> contactos;
 
+    /**
+     * Inicialización de los componentes principales de la Interfaz 
+     * Gráfica de Usuario
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         cargarContactos(null);
@@ -92,6 +96,10 @@ public class FXMLContactosController implements Initializable {
         imageStandBy.setVisible(true);
     }
 
+    /**
+     * Función para buscar en la Base de Datos los Contactos y mostrarlos en la ListView
+     * @param nombre En el caso que se busque un contacto con un nombre en específico
+     */
     public void cargarContactos(String nombre) {
         contactList.getItems().clear();
         if (nombre == null) {
@@ -113,6 +121,10 @@ public class FXMLContactosController implements Initializable {
         }
     }
 
+    /**
+     * Se hace la eliminación de un contacto a partir del id del Contacto 
+     * seleccionado en la JFXListView
+     */
     public void eliminarContacto() {
         int id = contactos.get(contactList.getSelectionModel().getSelectedIndex()).getIdContacto();
         if (ContactoDAO.eliminar(id)) {
@@ -124,9 +136,14 @@ public class FXMLContactosController implements Initializable {
         limpiarCampos();
     }
 
-    public long calcularCumple(Date d) {
+    /**
+     * Se calcula los días restantes para el cumpleaños del Contacto seleccionado
+     * @param cumple Fecha de cumpleaños del Contacto seleccionado
+     * @return Días restantes para el cumpleaños
+     */
+    public long calcularCumple(Date cumple) {
         Date current = new Date();
-        long dias = (int) ((current.getTime() - d.getTime()) / 86400000);
+        long dias = (int) ((current.getTime() - cumple.getTime()) / 86400000);
         int bis = 1;
         while (dias > 365) {
             dias -= 365;
@@ -141,11 +158,18 @@ public class FXMLContactosController implements Initializable {
         return dias;
     }
 
+    /**
+     * Verificación de que todos los campos necesarios esten llenos
+     * @return Confirmación si los campos no están vacíos
+     */
     public boolean camposIncompletos() {
         return txt_nombre.getText().isEmpty() || txt_telefono.getText().isEmpty() || txt_email.getText().isEmpty()
                 || txt_direccion.getText().isEmpty() || txt_date.getValue() == null;
     }
 
+    /**
+     * Se limpian los campos de texto para el llenado de un Contacto
+     */
     public void limpiarCampos() {
         lbl_nombre.setText("Contacto");
         txt_nombre.setText("");
@@ -157,6 +181,11 @@ public class FXMLContactosController implements Initializable {
         txt_date.setValue(LocalDate.parse(LocalDate.now().format(formatter), formatter));
     }
 
+    /**
+     * Inicialización del JFXPopup y llenado con la opción de "Eliminar",
+     * los cuales se muestran dentro de la lista. Se inicialización del 
+     * evento por la activación del botón Eliminar
+     */
     public void initPopup() {
         btn_eliminar = new JFXButton("Eliminar");
         btn_eliminar.setPadding(new Insets(10));
@@ -166,9 +195,16 @@ public class FXMLContactosController implements Initializable {
         btn_eliminar.setOnAction((ActionEvent e) -> {
             popup.hide();
             eliminarContacto();
+            lbl_cumple.setVisible(false);
         });
     }
 
+    /**
+     * Inicialización y muestra de un JFXDialog al centro de la pantalla, 
+     * mandando una advertencia a alguna operación
+     * @param head Título del dialog
+     * @param body Texto principal del dialog
+     */
     public void showDialog(String head, String body) {
         JFXDialogLayout content = new JFXDialogLayout();
         content.setHeading(new Text(head));
@@ -185,6 +221,12 @@ public class FXMLContactosController implements Initializable {
         dialog.show();
     }
 
+    /**
+     * Respuesta al evento de Mouse generado en la JFXListView contactList, en 
+     * el que un click derecho muestra el JFXPopup para eliminar, y un click
+     * derecho muestra los datos del contacto seleccionado en la lista.
+     * @param event Evento de mouse, correspondiente a un click derecho o izquierdo
+     */
     @FXML
     public void showPopup(MouseEvent event) {
         contactPane.setVisible(true);
@@ -206,11 +248,21 @@ public class FXMLContactosController implements Initializable {
         }
     }
 
+    /**
+     * Respuesta activa al ingresar una tecla. Se hace una búsqueda de Contactos por 
+     * nombre conforme se ingresa una tecla y se muestra en la JFXListView
+     * @param e Evento activado por presionar una tecla en el JFXTextFiel txt_buscar
+     */
     @FXML
     public void busquedaActiva(KeyEvent e) {
         cargarContactos(txt_buscar.getText() + "%");
     }
 
+    /**
+     * Respuesta al precionar el botón de Agregar, que prepara los campos para rellenar 
+     * los datos de un nuevo Contacto
+     * @param e Evento activado por presionar el botón Aceptar
+     */
     @FXML
     public void addNewContact(ActionEvent e) {
         limpiarCampos();
@@ -219,7 +271,12 @@ public class FXMLContactosController implements Initializable {
         lbl_cumple.setVisible(false);
     }
 
-    //TODO: Actualizar
+    /**
+     * Respuesta al presional el botón Aceptar, en la que se guarda o actualiza o registra 
+     * un contacto, dependiendo del estado de la etiqueta lbl_cumple (que sólo se muestra 
+     * para Contactos ya registrados antes)
+     * @param e Evento activado por presionar el botón Aceptar
+     */
     @FXML
     public void aceptarOnClick(ActionEvent e) {
         if (!lbl_cumple.isVisible()) {
@@ -240,14 +297,14 @@ public class FXMLContactosController implements Initializable {
         } else {
             if (!camposIncompletos()) {
                 Contacto nc;
-                nc = new Contacto(txt_nombre.getText(), txt_telefono.getText(), txt_email.getText(),
-                        txt_direccion.getText(), txt_apodo.getText(),
+                nc = new Contacto(contactos.get(contactList.getSelectionModel().getSelectedIndex()).getIdContacto(), txt_nombre.getText(),
+                        txt_telefono.getText(), txt_email.getText(), txt_direccion.getText(), txt_apodo.getText(),
                         Date.from(txt_date.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
                 if (ContactoDAO.actualizar(nc)) {
                     showDialog("Actualizado", "Contacto actualizado con éxito");
                     this.cargarContactos(null);
                 } else {
-                    showDialog("Error", "No se pudo almacenar el contacto");
+                    showDialog("Error", "No se pudo actualizar el contacto");
                 }
             } else {
                 showDialog("Campos Incompletos", "Por favor llene todos los campos necesarios");
@@ -255,6 +312,10 @@ public class FXMLContactosController implements Initializable {
         }
     }
 
+    /**
+     * Respuesta al presionar el botón Cancelar en un registro de Contacto
+     * @param e Evento activado por presionar el botón Cancelar
+     */
     @FXML
     public void cancelarOnClick(ActionEvent e) {
         limpiarCampos();
