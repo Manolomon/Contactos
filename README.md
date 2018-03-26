@@ -1,15 +1,28 @@
 # Contactos
-Proyecto para Principios de Construcción de Software para modelado de aplicación java de contactos
+Proyecto para Principios de Construcción de Software para el modelado de una aplicación java para el almacenamiento de Contactos.
+Entre las actividades que se encuentran, esta:
+- Almacenar Contactos
+- Modificar Contactos
+- Visualizar datos de Contactos
+- Eliminar Contactos
+- Realizar búsqueda de Contactos
+
+La documentacón adicional para los Casos de Uso se adjunta en ```/doc/``` y el JavaDoc se encuentra en ```/dist/Contactos.html```
 
 ## Requerimientos
-* [ ] El Sistema deberá almacenar contactos
-* [ ] Se podrá modificar los contactos
+* [X] El Sistema deberá almacenar contactos
+* [X] Se podrá modificar los contactos
 
 ## Prototipo
 
 ![Prototipo](/doc/Contactos.png)
 
+## Versión Final
+
+![Finale](/doc/Contactos_Finale.png)
+
 ## Base de Datos
+Modelado de la base de datos en MySQL (Archivo almacenado en ```/database/Contactos.sql```)
 | Field               | Type         | Null | Key | Default | Extra          |
 | ------------------- | ------------ | ---- | --- | ------- | -------------- |
 | idContacto          | int(11)      | NO   | PRI | NULL    | auto_increment |
