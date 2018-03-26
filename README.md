@@ -23,6 +23,7 @@ La documentacón adicional para los Casos de Uso se adjunta en ```/doc/``` y el 
 
 ## Base de Datos
 Modelado de la base de datos en MySQL (Archivo almacenado en ```/database/Contactos.sql```)
+
 | Field               | Type         | Null | Key | Default | Extra          |
 | ------------------- | ------------ | ---- | --- | ------- | -------------- |
 | idContacto          | int(11)      | NO   | PRI | NULL    | auto_increment |
