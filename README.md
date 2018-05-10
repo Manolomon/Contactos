@@ -7,7 +7,7 @@ Entre las actividades que se encuentran, esta:
 - Eliminar Contactos
 - Realizar búsqueda de Contactos
 
-La documentacón adicional para los Casos de Uso se adjunta en ```/doc/``` y el JavaDoc se encuentra en ```/dist/Contactos.html```
+La documentacón adicional para los Casos de Uso se adjunta en ```/doc/```
 
 ## Requerimientos
 * [X] El Sistema deberá almacenar contactos
