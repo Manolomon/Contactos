@@ -1,4 +1,7 @@
 # Contactos
+
+[![GitHub release](https://img.shields.io/github/release/Manolomon/Contactos.svg?longCache=true&colorB=yellow&style=for-the-badge)](https://github.com/Manolomon/Contactos/releases)
+
 Proyecto para Principios de Construcción de Software para el modelado de una aplicación java para el almacenamiento de Contactos.
 Entre las actividades que se encuentran, esta:
 - Almacenar Contactos
